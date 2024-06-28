@@ -14,9 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-import authRouter from './routes/auth.router.js';
+import authRouter from "./routes/auth.router.js";
 
-app.use('/api/auth', authRouter);
-
+app.use("/api/auth", authRouter);
 
 export { app };
