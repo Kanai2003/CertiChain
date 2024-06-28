@@ -1,16 +1,18 @@
 import express from "express";
 const router = express.Router();
-import { verifyToken } from "../middleware/varifyJwt.js";
-import { register, loginUser } from "../controllers/user.controller.js";
+import { verifyJWT } from "../middleware/varifyJwt.js";
+import { register, loginUser, logoutUser } from "../controllers/user.controller.js";
 
 // @route    POST api/auth/register
 // @desc     Register user
 // @access   Private
-router.post("/register", verifyToken, register);
+router.post("/register",  register);
 
 // @route    POST api/auth/login
 // @desc     Login user
 // @access   Private
-router.post("/login", verifyToken, loginUser);
+router.post("/login",  loginUser);
+
+router.post("/logout", verifyJWT, logoutUser)
 
 export default router;
