@@ -14,7 +14,7 @@ function Home() {
       <Navbar />
       <Box
         sx={{
-          width: '100%',
+          width: "100%",
           backgroundImage: `url(${backgroundImage})`,
           height: '100vh',
           backgroundAttachment: 'fixed',
@@ -23,30 +23,34 @@ function Home() {
         }}>
         <Box
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingTop: '70px',
-            flexDirection: 'column'
-          }}>
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            paddingTop: "70px",
+            flexDirection: "column",
+          }}
+        >
           <Typography
             sx={{
-              fontSize: '36px',
-              color: '#FFFFFF',
-              fontFamily: 'Irish Grover',
-              textAlign: 'center'
-            }}>
+              fontSize: "36px",
+              color: "#FFFFFF",
+              fontFamily: "Irish Grover",
+              textAlign: "center",
+            }}
+          >
             Welcome to <br />
             CertiChain
           </Typography>
           <Typography
             sx={{
-              color: '#FFFFFF',
-              fontSize: '20px',
-              fontWeight: 'bold',
-              paddingTop: '15px'
-            }}>
-            A decentralised platform to generate and store all your Offer Letters securely.
+              color: "#FFFFFF",
+              fontSize: "20px",
+              fontWeight: "bold",
+              paddingTop: "15px",
+            }}
+          >
+            A decentralised platform to generate and store all your Offer
+            Letters securely.
           </Typography>
         </Box>
       </Box>
@@ -57,7 +61,7 @@ function Home() {
           <CandidateView />
       </Box>
     </Box>
-  )
+  );
 }
 
-export default Home
+export default Home;

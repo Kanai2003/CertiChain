@@ -19,11 +19,15 @@
     "styled-components": "^6.1.11",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "prettier": "^3.3.2"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
