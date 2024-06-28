@@ -1,7 +1,6 @@
 import React from 'react'
 import Navbar from '../Navbar/Navbar'
 import { Box, Typography } from '@mui/material'
-import backgroundImage from '../../assets/bg.jpg'
 import './fonts.css'
 import EmployerLogin from './employer-login/EmployerLogin'
 import EmployerSignup from './employer-signup/EmployerSignup.jsx/EmployerSignup'
@@ -15,7 +14,7 @@ function Home() {
       <Box
         sx={{
           width: "100%",
-          backgroundImage: `url(${backgroundImage})`,
+          backgroundImage: `url(/assets/bg.jpg)`,
           height: '100vh',
           backgroundAttachment: 'fixed',
           backgroundPosition: 'center',
