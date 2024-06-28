@@ -1,23 +1,28 @@
-import admin from "firebase-admin";
+import jwt from "jsonwebtoken";
+import { ApiError } from "../utils/ApiError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { User } from "../module/user.model.js";
 
-admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
-});
-
-export const verifyToken = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).send("Unauthorized - No Token Provided");
-  }
-
-  const idToken = authHeader.split("Bearer ")[1];
-
-  try {
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
-    req.user = decodedToken;
-    next();
-  } catch (error) {
-    res.status(401).send("Unauthorized - Invalid Token");
-  }
-};
+// Middleware to verify JWT
+export const verifyJWT = asyncHandler(async (req, res, next) => {  //we can replace "res" with "_" if we don't use it
+    try {
+        const token = req.cookies.accessToken || req.header("Authorization")?.replace("Bearer ", "")
+    
+        if( !token ){
+            throw new ApiError(401, "Unauthorized request")
+        }
+        const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        
+        const user =await User.findById(decodedToken?._id).select("-password -refreshToken")
+    
+        if( !user ){
+            throw new ApiError(401, "Invalid Access Token")
+        }
+    
+        req.user = user
+    
+        next()
+    } catch (error) {
+        throw new ApiError(401, error?.message || "Invalid Access Token")
+    }
+})
