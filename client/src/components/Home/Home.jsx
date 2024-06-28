@@ -3,6 +3,10 @@ import Navbar from '../Navbar/Navbar'
 import { Box, Typography } from '@mui/material'
 import backgroundImage from '../../assets/bg.jpg'
 import './fonts.css'
+import EmployerLogin from './employer-login/EmployerLogin'
+import EmployerSignup from './employer-signup/EmployerSignup.jsx/EmployerSignup'
+import CreateOfferLetter from './create-offer-letter/CreateOfferLetter'
+import CandidateView from './candidate-view/CandidateView'
 
 function Home() {
   return (
@@ -15,8 +19,7 @@ function Home() {
           height: '100vh',
           backgroundAttachment: 'fixed',
           backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          background
+          backgroundSize: 'cover'
         }}>
         <Box
           sx={{
@@ -47,12 +50,11 @@ function Home() {
           </Typography>
         </Box>
       </Box>
-      <Box
-        sx={{
-          width: '80%',
-          height: 'auto'
-      }}>
-
+      <Box>
+          <CreateOfferLetter />
+          <EmployerSignup />
+          <EmployerLogin />
+          <CandidateView />
       </Box>
     </Box>
   )
