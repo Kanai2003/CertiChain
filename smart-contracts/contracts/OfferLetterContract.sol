@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 contract OfferLetterContract {
     struct OfferLetter {
         string offerLetterId;
-        string organisation;
+        string employer;
         string candidate;
         string salary;
         string position;
@@ -16,11 +16,11 @@ contract OfferLetterContract {
     mapping(string => OfferLetter) private offerLetters;
     mapping(string => bool) private offerLetterExists;
 
-    event OfferLetterCreated(string offerLetterId, string organisation, string candidate, string offerHash, string uniqueURL);
+    event OfferLetterCreated(string offerLetterId, string employer, string candidate, string offerHash, string uniqueURL);
 
     function createOfferLetter(
         string memory offerLetterId,
-        string memory organisation,
+        string memory employer,
         string memory candidate,
         string memory salary,
         string memory position,
@@ -29,7 +29,7 @@ contract OfferLetterContract {
         require(!offerLetterExists[offerLetterId], "Offer letter ID already exists");
 
         // Create offer hash
-        string memory offerDetails = string(abi.encodePacked(organisation, candidate, salary, position, date));
+        string memory offerDetails = string(abi.encodePacked(employer, candidate, salary, position, date));
         bytes32 offerHashBytes = keccak256(abi.encodePacked(offerDetails));
         string memory offerHash = toHexString(offerHashBytes);
 
@@ -38,7 +38,7 @@ contract OfferLetterContract {
 
         OfferLetter memory newOfferLetter = OfferLetter({
             offerLetterId: offerLetterId,
-            organisation: organisation,
+            employer: employer,
             candidate: candidate,
             salary: salary,
             position: position,
@@ -50,14 +50,14 @@ contract OfferLetterContract {
         offerLetters[offerLetterId] = newOfferLetter;
         offerLetterExists[offerLetterId] = true;
 
-        emit OfferLetterCreated(offerLetterId, organisation, candidate, offerHash, uniqueURL);
+        emit OfferLetterCreated(offerLetterId, employer, candidate, offerHash, uniqueURL);
     }
 
     function queryOfferLetter(string memory offerLetterId)
         public
         view
         returns (
-            string memory organisation,
+            string memory employer,
             string memory candidate,
             string memory salary,
             string memory position,
@@ -70,7 +70,7 @@ contract OfferLetterContract {
 
         OfferLetter memory offerLetter = offerLetters[offerLetterId];
         return (
-            offerLetter.organisation,
+            offerLetter.employer,
             offerLetter.candidate,
             offerLetter.salary,
             offerLetter.position,
@@ -80,21 +80,10 @@ contract OfferLetterContract {
         );
     }
 
-    function verifyOfferLetter(
-        string memory offerLetterId,
-        string memory organisation,
-        string memory candidate,
-        string memory salary,
-        string memory position,
-        string memory date
-    ) public view returns (bool) {
+    function verifyOfferHash(string memory offerLetterId, string memory offerHash) public view returns (bool) {
         require(offerLetterExists[offerLetterId], "Offer letter ID does not exist");
 
         OfferLetter memory offerLetter = offerLetters[offerLetterId];
-        string memory offerDetails = string(abi.encodePacked(organisation, candidate, salary, position, date));
-        bytes32 offerHashBytes = keccak256(abi.encodePacked(offerDetails));
-        string memory offerHash = toHexString(offerHashBytes);
-
         return (keccak256(abi.encodePacked(offerLetter.offerHash)) == keccak256(abi.encodePacked(offerHash)));
     }
 
