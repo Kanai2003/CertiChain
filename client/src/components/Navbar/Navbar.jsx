@@ -24,6 +24,7 @@ function Navbar(
         top: "0",
         width: "100%",
         color: "#ffffff",
+        zIndex: '999'
       }}
     >
       <Box>

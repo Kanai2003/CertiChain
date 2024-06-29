@@ -27,22 +27,25 @@ function Home() {
       sx={{
         width: "100%",
         backgroundImage: `url(/assets/bg.jpg)`,
-        height: "100vh",
+        minHeight: "100vh",
         backgroundAttachment: "fixed",
         backgroundPosition: "center",
         backgroundSize: "cover",
+        color: '#FFFFFF',
+        backdropFilter: 'opacity(10px)'
       }}
     >
       <Navbar
-        // setIsLoginModalOpen={setIsLoginModalOpen}
-        // setIsRegisterModalOpen={setIsRegisterModalOpen}
+      // setIsLoginModalOpen={setIsLoginModalOpen}
+      // setIsRegisterModalOpen={setIsRegisterModalOpen}
       />
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          paddingTop: "120px",
+          paddingTop: "100px",
+          paddingBottom: '70px',
           flexDirection: "column",
           paddingX: "10rem",
         }}
@@ -59,8 +62,8 @@ function Home() {
           {/* Welcome{" "}
           {isLoggedIn ? <span style={{ color: "blue" }}>{user.name}</span> : ""}{" "}
           to <br /> */}
-          Welcome to <br/>
-          <span style={{ color: "blue" }}>CertiChain</span>
+          <span style={{ fontSize: '30px' }}>Welcome to</span> <br />
+          CertiChain
         </Typography>
         <Typography
           sx={{
@@ -68,6 +71,7 @@ function Home() {
           }}
           variant="h5"
           textAlign={"center"}
+          style={{fontWeight: '500', paddingTop: '30px'}}
         >
           A decentralized platform, leveraging Web3 and Blockchain technology to
           securely generate and store your offer letters. Experience the future

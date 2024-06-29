@@ -5,7 +5,8 @@ const initialState = {
   formData: {},
   offerLetter: null,
   verificationResult: null,
-  offerLetterId: null,  // Add this line
+  offerLetterId: null,
+  offerLetterList: [],  // Add this line
 };
 
 const offerLetterSlice = createSlice({
@@ -27,8 +28,14 @@ const offerLetterSlice = createSlice({
     setVerificationResult(state, action) {
       state.verificationResult = action.payload;
     },
-    setOfferLetterId(state, action) {  // Add this reducer
+    setOfferLetterId(state, action) {
       state.offerLetterId = action.payload;
+    },
+    setOfferLetterList(state, action) {  // Add this reducer
+      state.offerLetterList = action.payload;
+    },
+    clearFormData(state) {  // Add this reducer
+      state.formData = {};
     },
   },
 });
@@ -38,7 +45,9 @@ export const {
   setFormData,
   setOfferLetter,
   setVerificationResult,
-  setOfferLetterId,  // Export this action
+  setOfferLetterId,
+  setOfferLetterList,  // Export this action
+  clearFormData,  // Export this action
 } = offerLetterSlice.actions;
 
 export default offerLetterSlice.reducer;

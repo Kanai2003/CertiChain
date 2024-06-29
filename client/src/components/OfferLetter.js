@@ -114,13 +114,23 @@ const OfferLetter = () => {
     return `offer_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
   };
 
+  const date = new Date();
+  const year = date.getFullYear();
+
   return (
-    <Container>
+    <Container sx={{
+      paddingBottom: '80px'
+    }}>
       <Typography variant="h4" gutterBottom>
         Create Offer Letter
       </Typography>
       <Paper style={{ padding: 16 }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{
+          paddingTop: '30px',
+          paddingBottom: '20px',
+          paddingLeft: '20px',
+          paddingRight: '20px'
+        }}>
           <Grid item xs={12}>
             <TextField
               label="Employer"
@@ -181,19 +191,23 @@ const OfferLetter = () => {
             </Button>
           </Grid>
         </Grid>
+        {generatedOfferLetterId && (
+          <Typography variant="h6" style={{ marginTop: 16, fontSize: '15px', fontWeight: '600', paddingLeft: '20px', paddingBottom: '15px'}}>
+            Generated Offer Letter ID: <span style={{ color: 'red', fontStyle: 'italic' }}>{generatedOfferLetterId}</span>
+          </Typography>
+        )}
       </Paper>
 
-      {generatedOfferLetterId && (
-        <Typography variant="h6" style={{ marginTop: 16 }}>
-          Generated Offer Letter ID: {generatedOfferLetterId}
-        </Typography>
-      )}
-
-      <Typography variant="h4" gutterBottom style={{ marginTop: 32 }}>
+      <Typography variant="h4" gutterBottom style={{ marginTop: 32, fontWeight: '600' }}>
         Get Offer Letter
       </Typography>
       <Paper style={{ padding: 16 }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{
+          paddingTop: '30px',
+          paddingBottom: '20px',
+          paddingLeft: '20px',
+          paddingRight: '20px'
+        }}>
           <Grid item xs={12}>
             <TextField
               label="Offer Letter ID"
@@ -207,7 +221,7 @@ const OfferLetter = () => {
           <Grid item xs={12}>
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               onClick={getOfferLetter}
             >
               Get Offer Letter
@@ -217,8 +231,13 @@ const OfferLetter = () => {
       </Paper>
 
       {offerLetter && (
-        <Paper style={{ padding: 16, marginTop: 16 }}>
-          <Typography variant="h6">Offer Letter Details</Typography>
+        <Paper style={{ marginTop: 16, paddingLeft: 45, paddingTop: 30, paddingBottom: 30, paddingRight: 20 }} sx={{
+          paddingTop: '20px',
+          paddingBottom: '20px',
+          paddingLeft: '20px',
+          paddingRight: '20px',
+        }}>
+          <Typography variant="h6" style={{fontWeight: '700', }}>Offer Letter Details:</Typography>
           {Object.entries(offerLetter).map(([key, value]) => (
             <Typography key={key}>
               {`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`}
@@ -231,7 +250,12 @@ const OfferLetter = () => {
         Verify Offer Letter
       </Typography>
       <Paper style={{ padding: 16 }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{
+          paddingTop: '30px',
+          paddingBottom: '20px',
+          paddingLeft: '20px',
+          paddingRight: '20px'
+        }}>
           <Grid item xs={12}>
             <TextField
               label="Offer Letter ID"
@@ -257,14 +281,25 @@ const OfferLetter = () => {
               variant="contained"
               color="primary"
               onClick={() => verifyOfferLetter(formData.offerLetterIdToVerify, formData.offerHash)}
+              style={{fontWeight: '600'}}
             >
               Verify Offer Letter
             </Button>
           </Grid>
-        </Grid>
+        </Grid>      
+        {verificationResult && <Typography style={{color: 'red', fontSize: '15px', fontWeight: '600', fontStyle: 'italic', paddingLeft: '20px'}}>
+            {verificationResult}
+          </Typography>
+        }
       </Paper>
-
-      {verificationResult && <Typography>{verificationResult}</Typography>}
+      <Typography sx={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        color: 'gray',
+        position: 'relative',
+        bottom: '0'
+      }}>Copyright &copy; {year} | InnovateX</Typography>
     </Container>
   );
 };
