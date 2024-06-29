@@ -218,11 +218,10 @@ const OfferLetter = () => {
         formData={formData}
         handleChange={handleChange}
         verifyOfferLetter={verifyOfferLetter}
+        verificationResult={verificationResult}
       />
 
-      {verificationResult && (
-        <Typography variant="h6">{verificationResult}</Typography>
-      )}
+      
     </Container>
   );
 };

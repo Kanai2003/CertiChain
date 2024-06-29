@@ -15,6 +15,7 @@ const VerifyOfferLetterModal = ({
   formData,
   handleChange,
   verifyOfferLetter,
+  verificationResult
 }) => {
   return (
     <Dialog open={open} onClose={() => handleClose(false)} fullWidth>
@@ -59,6 +60,9 @@ const VerifyOfferLetterModal = ({
           Verify Offer Letter
         </Button>
       </DialogActions>
+      {verificationResult && (
+        <Typography variant="h6">{verificationResult}</Typography>
+      )}
     </Dialog>
   );
 };
