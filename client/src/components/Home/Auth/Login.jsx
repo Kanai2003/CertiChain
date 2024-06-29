@@ -12,19 +12,6 @@ import axios from 'axios';
 
 import { BASE_URL } from '../../../constant';  
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 2,
-};
-
-
 const LoginModal = ({ isOpen, setIsOpen }) => {
   const [formData, setFormData] = useState({
     email: '',
@@ -76,10 +63,27 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
       open={isOpen}
       onClose={() => setIsOpen(false)}
     >
-      <Box sx={style}>
+      <Box sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        transition: '.3s ease-in-out',
+        width: '400px',
+        backgroundColor: "rgba(124, 122, 122, 0.68)",
+        backdropFilter: 'blur(10px)',
+        boxShadow: '24px',
+        padding: '40px',
+        borderRadius: '2px',
+        height: '50vh',
+        color: '#FFFFFF',
+        paddingTop: '10px',
+        paddingBottom: '10px'
+      }}>
         <Typography  variant="h6" textAlign={'center'}>
           Login to your account
         </Typography>
+        <hr width='80%' />
         {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
         {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
         <form onSubmit={handleSubmit}>
@@ -92,6 +96,16 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
             type="email"
             value={formData.email}
             onChange={handleChange}
+            InputLabelProps={{
+              style: { color: '#ffffff' } // Placeholder color
+            }}
+            InputProps={{
+              style: { color: '#ffffff' } // Input text color
+            }}
+            sx={{
+              border: '2px solid #ffffff',
+              borderRadius: '5px'
+            }}
           />
           <TextField
             margin="normal"
@@ -102,6 +116,16 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
             type="password"
             value={formData.password}
             onChange={handleChange}
+            InputLabelProps={{
+              style: { color: '#ffffff' } // Placeholder color
+            }}
+            InputProps={{
+              style: { color: '#ffffff' } // Input text color
+            }}
+            sx={{
+              border: '2px solid #ffffff',
+              borderRadius: '5px'
+            }}
           />
           <Button
             type="submit"
