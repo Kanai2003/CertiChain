@@ -1,12 +1,14 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { login, logout } from "../../store/actions/authActions";
+// import { useSelector, useDispatch } from "react-redux";
+// import { login, logout } from "../../store/actions/authActions";
 
-function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen }) {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+function Navbar(
+  // { setIsRegisterModalOpen, setIsLoginModalOpen }
+) {
+  // const dispatch = useDispatch();
+  // const user = useSelector((state) => state.auth.user) || {};
+  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn) || false;
 
   return (
     <Box
@@ -58,7 +60,7 @@ function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen }) {
             {item}
           </Button>
         ))}
-        {isLoggedIn ? (
+        {/* {isLoggedIn ? (
           <Button
             sx={{
               bgcolor: "white",
@@ -78,7 +80,7 @@ function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen }) {
             onClick={() => dispatch(logout())}
             variant="contained"
           >
-            LOGOUT
+            LOG OUT
           </Button>
         ) : (
           <>
@@ -101,7 +103,7 @@ function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen }) {
                 },
               }}
             >
-              LOGIN
+              LOG IN
             </Button>
             <Button
               variant="contained"
@@ -124,7 +126,7 @@ function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen }) {
               Register
             </Button>
           </>
-        )}
+        )} */}
       </Box>
     </Box>
   );
