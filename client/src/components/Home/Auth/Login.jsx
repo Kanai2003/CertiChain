@@ -15,7 +15,7 @@ import { BASE_URL } from "../../../constant"; // Corrected import path for const
 
 const LoginModal = ({ isOpen, setIsOpen }) => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn) || false;
 
   const [formData, setFormData] = useState({
     email: "",
