@@ -16,16 +16,16 @@ export const createOffer = asyncHandler(async (req, res) => {
   const organisationId = req.user._id;
   const offerLetterId = uuidv4();
 
-  const recipt = await createOfferLetter(
+  const receipt = await createOfferLetter(
     offerLetterId,
     organisationId,
     candidate,
     salary,
     position,
-    date,
+    date
   );
 
-  if (!recipt) {
+  if (!receipt) {
     throw new ApiError(400, "Offer letter creation failed on blockchain");
   }
 
@@ -37,8 +37,8 @@ export const createOffer = asyncHandler(async (req, res) => {
     position: position,
     date: date,
     uniqueLink: `https://company.com/offer/${offerLetterId}`,
-    blockHash: recipt.blockHash,
-    transactionHash: recipt.transactionHash,
+    blockHash: receipt.blockHash,
+    transactionHash: receipt.transactionHash,
     OfferLetterId: offerLetterId,
   });
 
@@ -49,7 +49,7 @@ export const createOffer = asyncHandler(async (req, res) => {
   res
     .status(201)
     .json(
-      new ApiResponse(201, newOfferLetter, "Offer letter created successfully"),
+      new ApiResponse(201, newOfferLetter, "Offer letter created successfully")
     );
 });
 
@@ -57,7 +57,7 @@ export const createOffer = asyncHandler(async (req, res) => {
 export const verifyOffer = asyncHandler(async (req, res) => {
   const { offerLetterId, offerHash } = req.body;
 
-  console.log(offerLetterId, offerHash);
+  console.log('Verify Offer Params:', offerLetterId, offerHash);
 
   // Verify offer letter hash on blockchain
   const isValid = await verifyOfferLetter(offerLetterId, offerHash);

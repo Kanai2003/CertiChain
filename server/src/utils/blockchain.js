@@ -9,9 +9,12 @@ const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
 const setupContract = async () => {
   const networkId = await web3.eth.net.getId();
   const deployedNetwork = OfferLetterContract.networks[networkId];
+  if (!deployedNetwork) {
+    throw new Error('Contract not deployed on the detected network');
+  }
   const contract = new web3.eth.Contract(
     OfferLetterContract.abi,
-    deployedNetwork && deployedNetwork.address,
+    deployedNetwork && deployedNetwork.address
   );
   return contract;
 };
@@ -22,7 +25,7 @@ export const createOfferLetter = async (
   candidate,
   salary,
   position,
-  date,
+  date
 ) => {
   const contract = await setupContract();
   const accounts = await web3.eth.getAccounts();
@@ -42,7 +45,7 @@ export const createOfferLetter = async (
       candidate,
       salary,
       position,
-      date,
+      date
     )
     .send({ from: accounts[0] });
 
@@ -51,7 +54,7 @@ export const createOfferLetter = async (
   if (!receipt) {
     throw new ApiError(
       400,
-      "Offer letter creation failed on blockchain -- recipt not found",
+      "Offer letter creation failed on blockchain -- receipt not found"
     );
   }
 
@@ -65,14 +68,17 @@ export const verifyOfferLetter = async (offerLetterId, offerHash) => {
   offerLetterId = String(offerLetterId);
   offerHash = String(offerHash);
 
+  console.log('Params to verifyOfferHash:', offerLetterId, offerHash);
+
   const result = await contract.methods
     .verifyOfferHash(offerLetterId, offerHash)
-    .call();
+    .call({ gas: 3000000 });
 
   console.log("blockchain result", result);
 
   return result;
 };
+
 
 export const queryOfferLetter = async (offerLetterId) => {
   const contract = await setupContract();
@@ -84,6 +90,6 @@ export const queryOfferLetter = async (offerLetterId) => {
     position: result[3],
     date: result[4],
     offerHash: result[5],
-    uniqueURL: result[6],
+    uniqueURL: result[6]
   };
 };

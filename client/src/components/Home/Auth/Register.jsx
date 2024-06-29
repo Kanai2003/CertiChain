@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Modal,
   Box,
@@ -7,23 +7,23 @@ import {
   Button,
   MenuItem,
   CircularProgress,
-  Alert
-} from '@mui/material';
-import axios from 'axios';
+  Alert,
+} from "@mui/material";
+import axios from "axios";
 
-import { BASE_URL } from '../../../constant';
+import { BASE_URL } from "../../../constant";
 
-const roles = ['organization', 'candidate'];
+const roles = ["organization", "candidate"];
 
 const RegistrationModal = ({ isOpen, setIsOpen }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    mobile: '',
-    role: '',
-    address: '',
-    password: '',
-    confirmPassword: ''
+    name: "",
+    email: "",
+    mobile: "",
+    role: "",
+    address: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -46,61 +46,80 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
 
     try {
       if (formData.password !== formData.confirmPassword) {
-        return setError('Passwords do not match');
+        return setError("Passwords do not match");
       }
-      const response = await axios.post(`${BASE_URL}/api/auth/register`, formData, {
-        withCredentials: true
-      });
+      const response = await axios.post(
+        `${BASE_URL}/api/auth/register`,
+        formData,
+        {
+          withCredentials: true,
+        },
+      );
 
       setSuccess(response.data.message);
       setFormData({
-        name: '',
-        email: '',
-        mobile: '',
-        role: '',
-        address: '',
-        password: '',
-        confirmPassword: ''
+        name: "",
+        email: "",
+        mobile: "",
+        role: "",
+        address: "",
+        password: "",
+        confirmPassword: "",
       });
 
       setTimeout(() => {
         setSuccess(null);
         setIsOpen(false);
-      }, 2000);
+      }, 500);
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong!');
+      setError(err.response?.data?.message || "Something went wrong!");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Modal
-      open={isOpen}
-      onClose={() => setIsOpen(false)}
-    >
-      <Box sx={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        transition: '.3s ease-in-out',
-        width: '400px',
-        backgroundColor: "rgba(124, 122, 122, 0.68)",
-        backdropFilter: 'blur(10px)',
-        boxShadow: '24px',
-        padding: '40px',
-        borderRadius: '2px',
-        height: '80vh',
-        overflow: 'auto',
-        color: '#FFFFFF'
-      }}>
-        <Typography variant="h6" textAlign={'center'}>
+    <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          transition: ".3s ease-in-out",
+          width: "400px",
+          backgroundColor: "rgba(124, 122, 122, 0.68)",
+          backdropFilter: "blur(10px)",
+          boxShadow: "24px",
+          padding: "40px",
+          borderRadius: "2px",
+          height: "80vh",
+          overflow: "auto",
+          color: "#FFFFFF",
+        }}
+      >
+        <Typography variant="h6" textAlign={"center"}>
           Create an Account
         </Typography>
-        <hr width='80%' />
-        {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-        {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
+        <Typography
+          onClick={() => {
+            setIsOpen(false);
+          }}
+          textAlign={"center"}
+        >
+          already have an account? sign in
+        </Typography>
+        <hr width="80%" />
+        {error && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {error}
+          </Alert>
+        )}
+        {success && (
+          <Alert severity="success" sx={{ mt: 2 }}>
+            {success}
+          </Alert>
+        )}
         <form onSubmit={handleSubmit}>
           <TextField
             margin="normal"
@@ -111,14 +130,14 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             value={formData.name}
             onChange={handleChange}
             InputLabelProps={{
-              style: { color: '#ffffff' } // Placeholder color
+              style: { color: "#ffffff" }, // Placeholder color
             }}
             InputProps={{
-              style: { color: '#ffffff' } // Input text color
+              style: { color: "#ffffff" }, // Input text color
             }}
             sx={{
-              border: '2px solid #ffffff',
-              borderRadius: '5px'
+              border: "2px solid #ffffff",
+              borderRadius: "5px",
             }}
           />
           <TextField
@@ -131,14 +150,14 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             value={formData.email}
             onChange={handleChange}
             InputLabelProps={{
-              style: { color: '#ffffff' } // Placeholder color
+              style: { color: "#ffffff" }, // Placeholder color
             }}
             InputProps={{
-              style: { color: '#ffffff' } // Input text color
+              style: { color: "#ffffff" }, // Input text color
             }}
             sx={{
-              border: '2px solid #ffffff',
-              borderRadius: '5px'
+              border: "2px solid #ffffff",
+              borderRadius: "5px",
             }}
           />
           <TextField
@@ -151,14 +170,14 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             value={formData.mobile}
             onChange={handleChange}
             InputLabelProps={{
-              style: { color: '#ffffff' } // Placeholder color
+              style: { color: "#ffffff" }, // Placeholder color
             }}
             InputProps={{
-              style: { color: '#ffffff' } // Input text color
+              style: { color: "#ffffff" }, // Input text color
             }}
             sx={{
-              border: '2px solid #ffffff',
-              borderRadius: '5px'
+              border: "2px solid #ffffff",
+              borderRadius: "5px",
             }}
           />
           <TextField
@@ -171,14 +190,14 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             value={formData.role}
             onChange={handleChange}
             InputLabelProps={{
-              style: { color: '#ffffff' } // Placeholder color
+              style: { color: "#ffffff" }, // Placeholder color
             }}
             InputProps={{
-              style: { color: '#ffffff' } // Input text color
+              style: { color: "#ffffff" }, // Input text color
             }}
             sx={{
-              border: '2px solid #ffffff',
-              borderRadius: '5px'
+              border: "2px solid #ffffff",
+              borderRadius: "5px",
             }}
           >
             {roles.map((role) => (
@@ -196,14 +215,14 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             value={formData.address}
             onChange={handleChange}
             InputLabelProps={{
-              style: { color: '#ffffff' } // Placeholder color
+              style: { color: "#ffffff" }, // Placeholder color
             }}
             InputProps={{
-              style: { color: '#ffffff' } // Input text color
+              style: { color: "#ffffff" }, // Input text color
             }}
             sx={{
-              border: '2px solid #ffffff',
-              borderRadius: '5px'
+              border: "2px solid #ffffff",
+              borderRadius: "5px",
             }}
           />
           <TextField
@@ -216,14 +235,14 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             value={formData.password}
             onChange={handleChange}
             InputLabelProps={{
-              style: { color: '#ffffff' } // Placeholder color
+              style: { color: "#ffffff" }, // Placeholder color
             }}
             InputProps={{
-              style: { color: '#ffffff' } // Input text color
+              style: { color: "#ffffff" }, // Input text color
             }}
             sx={{
-              border: '2px solid #ffffff',
-              borderRadius: '5px'
+              border: "2px solid #ffffff",
+              borderRadius: "5px",
             }}
           />
           <TextField
@@ -236,14 +255,14 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             value={formData.confirmPassword}
             onChange={handleChange}
             InputLabelProps={{
-              style: { color: '#ffffff' } // Placeholder color
+              style: { color: "#ffffff" }, // Placeholder color
             }}
             InputProps={{
-              style: { color: '#ffffff' } // Input text color
+              style: { color: "#ffffff" }, // Input text color
             }}
             sx={{
-              border: '2px solid #ffffff',
-              borderRadius: '5px'
+              border: "2px solid #ffffff",
+              borderRadius: "5px",
             }}
           />
           <Button
@@ -254,7 +273,7 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             sx={{ mt: 2 }}
             disabled={loading}
           >
-            {loading ? <CircularProgress size={24} /> : 'Register'}
+            {loading ? <CircularProgress size={24} /> : "Register"}
           </Button>
         </form>
       </Box>

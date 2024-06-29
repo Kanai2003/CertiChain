@@ -1,6 +1,6 @@
 // src/reducers/authReducer.js
 
-import {  LOGIN, LOGOUT} from "../actions/authActions.js";
+import { LOGIN, LOGOUT } from "../actions/authActions.js";
 
 const initialState = {
   user: null,

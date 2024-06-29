@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function EmployerLogin() {
-  return (
-    <div>EmployerLogin</div>
-  )
+  return <div>EmployerLogin</div>;
 }
 
-export default EmployerLogin
+export default EmployerLogin;

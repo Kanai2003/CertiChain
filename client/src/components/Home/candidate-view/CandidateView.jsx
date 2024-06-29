@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function CandidateView() {
-  return (
-    <div>CandidateView</div>
-  )
+  return <div>CandidateView</div>;
 }
 
-export default CandidateView
+export default CandidateView;
