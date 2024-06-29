@@ -70,10 +70,18 @@ module.exports = {
     //   network_id: "*",       // Any network (default: none)
     // },
     fuji: {
-      provider: () => new HDWalletProvider(process.env.MNEMONIC, `https://api.avax-test.network/ext/bc/C/rpc`),
-      network_id: "*",       // Any network (default: none)
-      gas: 3000000,          // Gas limit
-      gasPrice: 225000000000 // 225 gwei (in wei)
+      provider: () => new HDWalletProvider({
+        mnemonic: {
+          phrase: process.env.MNEMONIC
+        },
+        providerOrUrl: process.env.REACT_APP_API_URL
+      }),
+      network_id: 43113,
+      gas: 4000000,
+      gasPrice: 470000000000,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
     }
     //
     // An additional network, but with some advanced options…

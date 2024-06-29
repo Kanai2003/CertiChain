@@ -1,46 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  account: null,
+  formData: {},
+  offerLetter: null,
+  verificationResult: null,
+  offerLetterId: null,  // Add this line
+};
+
 const offerLetterSlice = createSlice({
   name: "offerLetter",
-  initialState: {
-    account: null,
-    formData: {
-      companyName: "",
-      companyAddress: "",
-      candidateName: "",
-      candidateAddress: "",
-      position: "",
-      startDate: "",
-      salary: "",
-      supervisorName: "",
-      responsibilities: "",
-      compensationAndBenefits: "",
-      termsOfEmployment: "",
-      acceptanceDeadline: "",
-      contactName: "",
-      contactEmail: "",
-      contactPhone: "",
-      uniqueLink: "",
-    },
-    offerLetter: null,
-    verificationResult: null,
-  },
+  initialState,
   reducers: {
-    setAccount: (state, action) => {
+    setAccount(state, action) {
       state.account = action.payload;
     },
-    setFormData: (state, action) => {
-      state.formData = { ...state.formData, ...action.payload };
+    setFormData(state, action) {
+      state.formData = {
+        ...state.formData,
+        ...action.payload,
+      };
     },
-    setOfferLetter: (state, action) => {
+    setOfferLetter(state, action) {
       state.offerLetter = action.payload;
     },
-    setVerificationResult: (state, action) => {
+    setVerificationResult(state, action) {
       state.verificationResult = action.payload;
     },
-    generateUniqueLink: (state) => {
-      const uniqueLink = `${state.formData.candidateName}-${Date.now()}`;
-      state.formData.uniqueLink = uniqueLink;
+    setOfferLetterId(state, action) {  // Add this reducer
+      state.offerLetterId = action.payload;
     },
   },
 });
@@ -50,7 +38,7 @@ export const {
   setFormData,
   setOfferLetter,
   setVerificationResult,
-  generateUniqueLink,
+  setOfferLetterId,  // Export this action
 } = offerLetterSlice.actions;
 
 export default offerLetterSlice.reducer;

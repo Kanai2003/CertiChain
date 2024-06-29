@@ -13,9 +13,9 @@ import {
   setFormData,
   setOfferLetter,
   setVerificationResult,
-  generateUniqueLink,
+  setOfferLetterId,
 } from "../store/offerLetterSlice";
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import OfferLetterContractABI from "../contracts/OfferLetterContract.json";
 
 // Ensure this environment variable is set in your .env file
@@ -28,29 +28,10 @@ const OfferLetter = () => {
   const offerLetterState = useSelector((state) => state.offerLetter);
 
   const account = offerLetterState?.account || null;
-  const isformData = offerLetterState?.formData || null;
+  const formData = offerLetterState?.formData || {};
   const offerLetter = offerLetterState?.offerLetter || null;
   const verificationResult = offerLetterState?.verificationResult || null;
-
-  const [formData, setFormData] = useState({
-    companyName: "",
-    companyAddress: "",
-    candidateName: "",
-    candidateAddress: "",
-    position: "",
-    startDate: "",
-    salary: "",
-    supervisorName: "",
-    responsibilities: "",
-    compensationAndBenefits: "",
-    termsOfEmployment: "",
-    acceptanceDeadline: "",
-    contactName: "",
-    contactEmail: "",
-    contactPhone: "",
-    uniqueLink: "",
-  
-  });
+  const generatedOfferLetterId = offerLetterState?.offerLetterId || null;
 
   useEffect(() => {
     const initializeEthers = async () => {
@@ -82,51 +63,55 @@ const OfferLetter = () => {
     if (!contract) return;
 
     try {
+      const offerLetterId = generateRandomOfferLetterId();
       const tx = await contract.createOfferLetter(
-        formData.companyName,
-        formData.companyAddress,
-        formData.candidateName,
-        formData.candidateAddress,
-        formData.position,
-        formData.startDate,
+        offerLetterId,
+        formData.employer,
+        formData.candidate,
         formData.salary,
-        formData.supervisorName,
-        formData.responsibilities,
-        formData.compensationAndBenefits,
-        formData.termsOfEmployment,
-        formData.acceptanceDeadline,
-        formData.contactName,
-        formData.contactEmail,
-        formData.contactPhone,
-        formData.uniqueLink
+        formData.position,
+        formData.date
       );
       await tx.wait();
       console.log("Offer letter created successfully");
+      dispatch(setOfferLetterId(offerLetterId));  // Store the generated offerLetterId
     } catch (error) {
       console.error("Error creating offer letter:", error);
     }
   };
 
   const getOfferLetter = async () => {
-    if (!contract || !account) return;
+    if (!contract || !formData.offerLetterId) return;
 
     try {
-      const offer = await contract.getOfferLetter(account);
-      dispatch(setOfferLetter(offer));
+      const offer = await contract.queryOfferLetter(formData.offerLetterId);
+      dispatch(setOfferLetter({
+        employer: offer[0],
+        candidate: offer[1],
+        salary: offer[2],
+        position: offer[3],
+        date: offer[4],
+        offerHash: offer[5],
+        uniqueURL: offer[6],
+      }));
     } catch (error) {
       console.error("Error fetching offer letter:", error);
     }
   };
 
-  const verifyOfferLetter = async (uniqueLink) => {
+  const verifyOfferLetter = async (offerLetterId, offerHash) => {
     if (!contract) return;
 
     try {
-      const isValid = await contract.verifyOfferLetter(uniqueLink);
+      const isValid = await contract.verifyOfferHash(offerLetterId, offerHash);
       dispatch(setVerificationResult(isValid ? "Offer letter is valid." : "Offer letter is invalid."));
     } catch (error) {
       console.error("Error verifying offer letter:", error);
     }
+  };
+
+  const generateRandomOfferLetterId = () => {
+    return `offer_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
   };
 
   return (
@@ -136,26 +121,55 @@ const OfferLetter = () => {
       </Typography>
       <Paper style={{ padding: 16 }}>
         <Grid container spacing={3}>
-          {Object.keys(formData).map((key) => (
-            <Grid item xs={12} sm={6} key={key}>
-              <TextField
-                label={key.charAt(0).toUpperCase() + key.slice(1)}
-                name={key}
-                value={formData[key] || ''}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-          ))}
           <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => dispatch(generateUniqueLink())}
-            >
-              Generate Unique Link
-            </Button>
+            <TextField
+              label="Employer"
+              name="employer"
+              value={formData.employer || ''}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Candidate"
+              name="candidate"
+              value={formData.candidate || ''}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Salary"
+              name="salary"
+              value={formData.salary || ''}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Position"
+              name="position"
+              value={formData.position || ''}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Date"
+              name="date"
+              value={formData.date || ''}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
           </Grid>
           <Grid item xs={12}>
             <Button
@@ -169,14 +183,38 @@ const OfferLetter = () => {
         </Grid>
       </Paper>
 
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={getOfferLetter}
-        style={{ marginTop: 16 }}
-      >
+      {generatedOfferLetterId && (
+        <Typography variant="h6" style={{ marginTop: 16 }}>
+          Generated Offer Letter ID: {generatedOfferLetterId}
+        </Typography>
+      )}
+
+      <Typography variant="h4" gutterBottom style={{ marginTop: 32 }}>
         Get Offer Letter
-      </Button>
+      </Typography>
+      <Paper style={{ padding: 16 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <TextField
+              label="Offer Letter ID"
+              name="offerLetterId"
+              value={formData.offerLetterId || ''}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={getOfferLetter}
+            >
+              Get Offer Letter
+            </Button>
+          </Grid>
+        </Grid>
+      </Paper>
 
       {offerLetter && (
         <Paper style={{ padding: 16, marginTop: 16 }}>
@@ -192,11 +230,40 @@ const OfferLetter = () => {
       <Typography variant="h4" gutterBottom style={{ marginTop: 32 }}>
         Verify Offer Letter
       </Typography>
-      <TextField
-        label="Enter Unique Link"
-        fullWidth
-        onChange={(e) => verifyOfferLetter(e.target.value)}
-      />
+      <Paper style={{ padding: 16 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <TextField
+              label="Offer Letter ID"
+              name="offerLetterIdToVerify"
+              value={formData.offerLetterIdToVerify || ''}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Offer Hash"
+              name="offerHash"
+              value={formData.offerHash || ''}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => verifyOfferLetter(formData.offerLetterIdToVerify, formData.offerHash)}
+            >
+              Verify Offer Letter
+            </Button>
+          </Grid>
+        </Grid>
+      </Paper>
+
       {verificationResult && <Typography>{verificationResult}</Typography>}
     </Container>
   );
