@@ -1,8 +1,9 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 
-function Navbar() {
+function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen}) {
   const user = 0;
+
 
   return (
     <Box
@@ -78,8 +79,10 @@ function Navbar() {
             LOGOUT
           </Button>
         ) : (
+          <>
           <Button
             variant="contained"
+            onClick={() => setIsLoginModalOpen(true)}
             sx={{
               bgcolor: "white",
               color: "black",
@@ -98,6 +101,27 @@ function Navbar() {
           >
             LOGIN
           </Button>
+          <Button
+            variant="contained"
+            onClick={() => setIsRegisterModalOpen(true)}
+            sx={{
+              bgcolor: "white",
+              color: "black",
+              fontWeight: "600",
+              transition: ".3s",
+              marginRight: "30px",
+              "&:hover": {
+                backgroundColor: "gray",
+                color: "white",
+                display: {
+                  transform: "translateY(-5px)",
+                },
+              },
+            }}
+          >
+            Register
+          </Button>
+          </>
         )}
       </Box>
     </Box>

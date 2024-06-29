@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../Navbar/Navbar'
 import { Box, Typography } from '@mui/material'
 import './fonts.css'
 import EmployerLogin from './employer-login/EmployerLogin'
 import EmployerSignup from './employer-signup/EmployerSignup.jsx/EmployerSignup'
-import CreateOfferLetter from './create-offer-letter/CreateOfferLetter'
+// import CreateOfferLetter from './create-offer-letter/CreateOfferLetter'
 import CandidateView from './candidate-view/CandidateView'
+import RegistrationModal from './Auth/Register'
+import LoginModal from './Auth/Login'
 
 function Home() {
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
   return (
     <Box>
-      <Navbar />
+      <Navbar setIsLoginModalOpen={setIsLoginModalOpen} setIsRegisterModalOpen={setIsRegisterModalOpen} />
       <Box
         sx={{
           width: "100%",
@@ -54,7 +59,8 @@ function Home() {
         </Box>
       </Box>
       <Box>
-          <CreateOfferLetter />
+          <RegistrationModal isOpen={isRegisterModalOpen} setIsOpen={setIsRegisterModalOpen}/>
+          <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen}/>
           <EmployerSignup />
           <EmployerLogin />
           <CandidateView />
