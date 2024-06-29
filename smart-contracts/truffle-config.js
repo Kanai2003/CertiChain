@@ -41,10 +41,10 @@
  * https://trufflesuite.com/docs/truffle/getting-started/using-the-truffle-dashboard/
  */
 
-// require('dotenv').config();
+require('dotenv').config();
 // const { MNEMONIC, PROJECT_ID } = process.env;
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
+const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 module.exports = {
   /**
@@ -64,11 +64,17 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
-    development: {
-     host: "127.0.0.1",     // Localhost (default: none)
-     port: 7545,            // Standard Ethereum port (default: none)
-     network_id: "*",       // Any network (default: none)
-    },
+    // development: {
+    //   host: "127.0.0.1",     // Localhost (default: none)
+    //   port: 7545,            // Standard Ethereum port (default: none)
+    //   network_id: "*",       // Any network (default: none)
+    // },
+    fuji: {
+      provider: () => new HDWalletProvider(process.env.MNEMONIC, `https://api.avax-test.network/ext/bc/C/rpc`),
+      network_id: "*",       // Any network (default: none)
+      gas: 3000000,          // Gas limit
+      gasPrice: 225000000000 // 225 gwei (in wei)
+    }
     //
     // An additional network, but with some advanced options…
     // advanced: {
@@ -109,33 +115,35 @@ module.exports = {
       version: "0.8.21",      // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       settings: {          // See the solidity docs for advice about optimization and evmVersion
-       optimizer: {
-         enabled: false,
-         runs: 200
-       },
-       evmVersion: "byzantium"
+        optimizer: {
+          enabled: false,
+          runs: 200
+        },
+        viaIR: true // Enable viaIR as suggested
+        //  evmVersion: "byzantium"
+        // }
       }
-    }
-  },
+    },
 
-  // Truffle DB is currently disabled by default; to enable it, change enabled:
-  // false to enabled: true. The default storage location can also be
-  // overridden by specifying the adapter settings, as shown in the commented code below.
-  //
-  // NOTE: It is not possible to migrate your contracts to truffle DB and you should
-  // make a backup of your artifacts to a safe location before enabling this feature.
-  //
-  // After you backed up your artifacts you can utilize db by running migrate as follows:
-  // $ truffle migrate --reset --compile-all
-  //
-  // db: {
-  //   enabled: false,
-  //   host: "127.0.0.1",
-  //   adapter: {
-  //     name: "indexeddb",
-  //     settings: {
-  //       directory: ".db"
-  //     }
-  //   }
-  // }
-};
+    // Truffle DB is currently disabled by default; to enable it, change enabled:
+    // false to enabled: true. The default storage location can also be
+    // overridden by specifying the adapter settings, as shown in the commented code below.
+    //
+    // NOTE: It is not possible to migrate your contracts to truffle DB and you should
+    // make a backup of your artifacts to a safe location before enabling this feature.
+    //
+    // After you backed up your artifacts you can utilize db by running migrate as follows:
+    // $ truffle migrate --reset --compile-all
+    //
+    // db: {
+    //   enabled: false,
+    //   host: "127.0.0.1",
+    //   adapter: {
+    //     name: "indexeddb",
+    //     settings: {
+    //       directory: ".db"
+    //     }
+    //   }
+    // }
+  }
+}
