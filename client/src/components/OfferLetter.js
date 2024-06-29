@@ -7,6 +7,7 @@ import {
   Typography,
   Grid,
   Paper,
+  Box,
 } from "@mui/material";
 import {
   setAccount,
@@ -17,11 +18,22 @@ import {
 } from "../store/offerLetterSlice";
 import { ethers, utils } from "ethers";
 import OfferLetterContractABI from "../contracts/OfferLetterContract.json";
+import CreateOfferLetterModal from "./Modal/CreateOfferLetterModal";
+import GetOfferLetterModal from "./Modal/GetOfferLetterModal";
+import VerifyOfferLetterModal from "./Modal/VerifyOfferLetterModal";
+import IconBox from "./Home/IconBox";
+import CreateIcon from "@mui/icons-material/Create";
+import ViewIcon from "@mui/icons-material/Visibility";
+import CheckIcon from "@mui/icons-material/Check";
 
 // Ensure this environment variable is set in your .env file
-const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS; 
 
 const OfferLetter = () => {
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [getModalOpen, setGetModalOpen] = useState(false);
+  const [verifyModalOpen, setVerifyModalOpen] = useState(false);
+
   const [contract, setContract] = useState(null);
 
   const dispatch = useDispatch();
@@ -40,7 +52,11 @@ const OfferLetter = () => {
           await window.ethereum.request({ method: "eth_requestAccounts" });
           const provider = new ethers.BrowserProvider(window.ethereum);
           const signer = await provider.getSigner();
-          const offerLetterContract = new ethers.Contract(contractAddress, OfferLetterContractABI.abi, signer);
+          const offerLetterContract = new ethers.Contract(
+            contractAddress,
+            OfferLetterContractABI.abi,
+            signer
+          );
           setContract(offerLetterContract);
           dispatch(setAccount(await signer.getAddress()));
         } catch (error) {
@@ -74,7 +90,9 @@ const OfferLetter = () => {
       );
       await tx.wait();
       console.log("Offer letter created successfully");
-      dispatch(setOfferLetterId(offerLetterId));  // Store the generated offerLetterId
+      dispatch(setOfferLetterId(offerLetterId)); // Store the generated offerLetterId
+
+      setCreateModalOpen(false);
     } catch (error) {
       console.error("Error creating offer letter:", error);
     }
@@ -85,15 +103,19 @@ const OfferLetter = () => {
 
     try {
       const offer = await contract.queryOfferLetter(formData.offerLetterId);
-      dispatch(setOfferLetter({
-        employer: offer[0],
-        candidate: offer[1],
-        salary: offer[2],
-        position: offer[3],
-        date: offer[4],
-        offerHash: offer[5],
-        uniqueURL: offer[6],
-      }));
+      dispatch(
+        setOfferLetter({
+          employer: offer[0],
+          candidate: offer[1],
+          salary: offer[2],
+          position: offer[3],
+          date: offer[4],
+          offerHash: offer[5],
+          uniqueURL: offer[6],
+        })
+      );
+
+      setGetModalOpen(false);
     } catch (error) {
       console.error("Error fetching offer letter:", error);
     }
@@ -104,7 +126,12 @@ const OfferLetter = () => {
 
     try {
       const isValid = await contract.verifyOfferHash(offerLetterId, offerHash);
-      dispatch(setVerificationResult(isValid ? "Offer letter is valid." : "Offer letter is invalid."));
+      dispatch(
+        setVerificationResult(
+          isValid ? "Offer letter is valid." : "Offer letter is invalid."
+        )
+      );
+      setVerifyModalOpen(false);
     } catch (error) {
       console.error("Error verifying offer letter:", error);
     }
@@ -118,117 +145,56 @@ const OfferLetter = () => {
   const year = date.getFullYear();
 
   return (
-    <Container sx={{
-      paddingBottom: '80px'
-    }}>
-      <Typography variant="h4" gutterBottom>
-        Create Offer Letter
-      </Typography>
-      <Paper style={{ padding: 16 }}>
-        <Grid container spacing={3} sx={{
-          paddingTop: '30px',
-          paddingBottom: '20px',
-          paddingLeft: '20px',
-          paddingRight: '20px'
-        }}>
-          <Grid item xs={12}>
-            <TextField
-              label="Employer"
-              name="employer"
-              value={formData.employer || ''}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Candidate"
-              name="candidate"
-              value={formData.candidate || ''}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Salary"
-              name="salary"
-              value={formData.salary || ''}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Position"
-              name="position"
-              value={formData.position || ''}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Date"
-              name="date"
-              value={formData.date || ''}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={createOfferLetter}
-            >
-              Create Offer Letter
-            </Button>
-          </Grid>
-        </Grid>
-        {generatedOfferLetterId && (
-          <Typography variant="h6" style={{ marginTop: 16, fontSize: '15px', fontWeight: '600', paddingLeft: '20px', paddingBottom: '15px'}}>
-            Generated Offer Letter ID: <span style={{ color: 'red', fontStyle: 'italic' }}>{generatedOfferLetterId}</span>
-          </Typography>
-        )}
-      </Paper>
+    <Container>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          
+          marginY: "50px",
+        }}
+      >
+        <IconBox
+          icon={<CreateIcon sx={{ fontSize: 60, color: "primary.main" }} />}
+          text="Create Offer Letter"
+          onClick={() => setCreateModalOpen(true)}
+        />
 
-      <Typography variant="h4" gutterBottom style={{ marginTop: 32, fontWeight: '600' }}>
-        Get Offer Letter
-      </Typography>
-      <Paper style={{ padding: 16 }}>
-        <Grid container spacing={3} sx={{
-          paddingTop: '30px',
-          paddingBottom: '20px',
-          paddingLeft: '20px',
-          paddingRight: '20px'
-        }}>
-          <Grid item xs={12}>
-            <TextField
-              label="Offer Letter ID"
-              name="offerLetterId"
-              value={formData.offerLetterId || ''}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={getOfferLetter}
-            >
-              Get Offer Letter
-            </Button>
-          </Grid>
-        </Grid>
-      </Paper>
+        <IconBox
+          icon={<ViewIcon sx={{ fontSize: 60, color: "primary.main" }} />}
+          text="Get Offer Letter"
+          onClick={() => setGetModalOpen(true)}
+        />
+
+        <IconBox
+          icon={<CheckIcon sx={{ fontSize: 60, color: "primary.main" }} />}
+          text="Verify Offer Letter"
+          onClick={() => setVerifyModalOpen(true)}
+        />
+      </Box>
+
+      <CreateOfferLetterModal
+        open={createModalOpen}
+        handleClose={setCreateModalOpen}
+        formData={formData}
+        handleChange={handleChange}
+        createOfferLetter={createOfferLetter}
+      />
+
+      {generatedOfferLetterId && (
+        <Typography variant="h6" style={{ marginTop: 16 }}>
+          Generated Offer Letter ID: {generatedOfferLetterId}
+        </Typography>
+      )}
+
+      <GetOfferLetterModal
+        open={getModalOpen}
+        handleClose={setGetModalOpen}
+        formData={formData}
+        handleChange={handleChange}
+        getOfferLetter={getOfferLetter}
+      />
 
       {offerLetter && (
         <Paper style={{ marginTop: 16, paddingLeft: 45, paddingTop: 30, paddingBottom: 30, paddingRight: 20 }} sx={{
@@ -246,60 +212,17 @@ const OfferLetter = () => {
         </Paper>
       )}
 
-      <Typography variant="h4" gutterBottom style={{ marginTop: 32 }}>
-        Verify Offer Letter
-      </Typography>
-      <Paper style={{ padding: 16 }}>
-        <Grid container spacing={3} sx={{
-          paddingTop: '30px',
-          paddingBottom: '20px',
-          paddingLeft: '20px',
-          paddingRight: '20px'
-        }}>
-          <Grid item xs={12}>
-            <TextField
-              label="Offer Letter ID"
-              name="offerLetterIdToVerify"
-              value={formData.offerLetterIdToVerify || ''}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Offer Hash"
-              name="offerHash"
-              value={formData.offerHash || ''}
-              onChange={handleChange}
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => verifyOfferLetter(formData.offerLetterIdToVerify, formData.offerHash)}
-              style={{fontWeight: '600'}}
-            >
-              Verify Offer Letter
-            </Button>
-          </Grid>
-        </Grid>      
-        {verificationResult && <Typography style={{color: 'red', fontSize: '15px', fontWeight: '600', fontStyle: 'italic', paddingLeft: '20px'}}>
-            {verificationResult}
-          </Typography>
-        }
-      </Paper>
-      <Typography sx={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        color: 'gray',
-        position: 'relative',
-        bottom: '0'
-      }}>Copyright &copy; {year} | InnovateX</Typography>
+      <VerifyOfferLetterModal
+        open={verifyModalOpen}
+        handleClose={setVerifyModalOpen}
+        formData={formData}
+        handleChange={handleChange}
+        verifyOfferLetter={verifyOfferLetter}
+      />
+
+      {verificationResult && (
+        <Typography variant="h6">{verificationResult}</Typography>
+      )}
     </Container>
   );
 };
