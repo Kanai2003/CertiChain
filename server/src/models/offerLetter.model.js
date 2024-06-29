@@ -8,8 +8,7 @@ const OfferLetterSchema = new mongoose.Schema(
       required: true,
     },
     candidate: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      type: String,
       required: true,
     },
     offerDetails: {
@@ -20,9 +19,17 @@ const OfferLetterSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    date: {
-      type: Date,
-      default: Date.now,
+    blockHash: {
+      type: String,
+      required: true,
+    },
+    transactionHash: {
+      type: String,
+      required: true,
+    },
+    OfferLetterId: {
+      type: String,
+      required: true,
     },
   },
   {

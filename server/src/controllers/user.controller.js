@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { User } from "../module/user.model.js";
+import { User } from "../models/user.model.js";
 
 // Generate access token and refresh token
 const generateAccessAndRefreshToken = async (userId) => {
@@ -53,7 +53,7 @@ export const register = asyncHandler(async (req, res, next) => {
   }
 
   const createdUser = await User.findById(newUser._id).select(
-    "-password -refreshToken"
+    "-password -refreshToken",
   );
 
   if (!createdUser) {
@@ -85,16 +85,18 @@ export const loginUser = asyncHandler(async (req, res, next) => {
     return next(new ApiError(400, "Wrong password"));
   }
 
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+    user._id,
+  );
 
   const loggedInUser = await User.findById(user._id).select(
-    "-password -refreshToken"
+    "-password -refreshToken",
   );
 
   const options = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Ensure cookies are secure in production
-    sameSite: 'strict', // Add sameSite attribute for better security
+    secure: process.env.NODE_ENV === "production", // Ensure cookies are secure in production
+    sameSite: "strict", // Add sameSite attribute for better security
   };
 
   return res
@@ -110,8 +112,8 @@ export const loginUser = asyncHandler(async (req, res, next) => {
           accessToken,
           refreshToken,
         },
-        "User logged in successfully"
-      )
+        "User logged in successfully",
+      ),
     );
 });
 
@@ -120,13 +122,13 @@ export const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
     { $unset: { refreshToken: 1 } },
-    { new: true }
+    { new: true },
   );
 
   const options = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', 
-    sameSite: 'strict', 
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
   };
 
   return res
