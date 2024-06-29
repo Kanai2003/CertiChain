@@ -13,20 +13,7 @@ import axios from 'axios';
 
 import { BASE_URL } from '../../../constant';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 2,
-};
-
 const roles = ['organization', 'candidate'];
-
 
 const RegistrationModal = ({ isOpen, setIsOpen }) => {
   const [formData, setFormData] = useState({
@@ -58,9 +45,9 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
     setSuccess(null);
 
     try {
-        if (formData.password !== formData.confirmPassword) {
-            return setError('Passwords do not match');
-        }
+      if (formData.password !== formData.confirmPassword) {
+        return setError('Passwords do not match');
+      }
       const response = await axios.post(`${BASE_URL}/api/auth/register`, formData, {
         withCredentials: true
       });
@@ -72,7 +59,8 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
         mobile: '',
         role: '',
         address: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
       });
 
       setTimeout(() => {
@@ -91,10 +79,26 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
       open={isOpen}
       onClose={() => setIsOpen(false)}
     >
-      <Box sx={style}>
-        <Typography  variant="h6" textAlign={'center'}>
+      <Box sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        transition: '.3s ease-in-out',
+        width: '400px',
+        backgroundColor: "rgba(124, 122, 122, 0.68)",
+        backdropFilter: 'blur(10px)',
+        boxShadow: '24px',
+        padding: '40px',
+        borderRadius: '2px',
+        height: '80vh',
+        overflow: 'auto',
+        color: '#FFFFFF'
+      }}>
+        <Typography variant="h6" textAlign={'center'}>
           Create an Account
         </Typography>
+        <hr width='80%' />
         {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
         {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
         <form onSubmit={handleSubmit}>
@@ -106,6 +110,16 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             name="name"
             value={formData.name}
             onChange={handleChange}
+            InputLabelProps={{
+              style: { color: '#ffffff' } // Placeholder color
+            }}
+            InputProps={{
+              style: { color: '#ffffff' } // Input text color
+            }}
+            sx={{
+              border: '2px solid #ffffff',
+              borderRadius: '5px'
+            }}
           />
           <TextField
             margin="normal"
@@ -116,6 +130,16 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             type="email"
             value={formData.email}
             onChange={handleChange}
+            InputLabelProps={{
+              style: { color: '#ffffff' } // Placeholder color
+            }}
+            InputProps={{
+              style: { color: '#ffffff' } // Input text color
+            }}
+            sx={{
+              border: '2px solid #ffffff',
+              borderRadius: '5px'
+            }}
           />
           <TextField
             margin="normal"
@@ -126,6 +150,16 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             type="tel"
             value={formData.mobile}
             onChange={handleChange}
+            InputLabelProps={{
+              style: { color: '#ffffff' } // Placeholder color
+            }}
+            InputProps={{
+              style: { color: '#ffffff' } // Input text color
+            }}
+            sx={{
+              border: '2px solid #ffffff',
+              borderRadius: '5px'
+            }}
           />
           <TextField
             margin="normal"
@@ -136,6 +170,16 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             name="role"
             value={formData.role}
             onChange={handleChange}
+            InputLabelProps={{
+              style: { color: '#ffffff' } // Placeholder color
+            }}
+            InputProps={{
+              style: { color: '#ffffff' } // Input text color
+            }}
+            sx={{
+              border: '2px solid #ffffff',
+              borderRadius: '5px'
+            }}
           >
             {roles.map((role) => (
               <MenuItem key={role} value={role}>
@@ -151,6 +195,16 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             name="address"
             value={formData.address}
             onChange={handleChange}
+            InputLabelProps={{
+              style: { color: '#ffffff' } // Placeholder color
+            }}
+            InputProps={{
+              style: { color: '#ffffff' } // Input text color
+            }}
+            sx={{
+              border: '2px solid #ffffff',
+              borderRadius: '5px'
+            }}
           />
           <TextField
             margin="normal"
@@ -161,17 +215,37 @@ const RegistrationModal = ({ isOpen, setIsOpen }) => {
             type="password"
             value={formData.password}
             onChange={handleChange}
+            InputLabelProps={{
+              style: { color: '#ffffff' } // Placeholder color
+            }}
+            InputProps={{
+              style: { color: '#ffffff' } // Input text color
+            }}
+            sx={{
+              border: '2px solid #ffffff',
+              borderRadius: '5px'
+            }}
           />
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="Confirm Password"
-                name="confirmPassword"
-                type="password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="Confirm Password"
+            name="confirmPassword"
+            type="password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            InputLabelProps={{
+              style: { color: '#ffffff' } // Placeholder color
+            }}
+            InputProps={{
+              style: { color: '#ffffff' } // Input text color
+            }}
+            sx={{
+              border: '2px solid #ffffff',
+              borderRadius: '5px'
+            }}
+          />
           <Button
             type="submit"
             fullWidth
