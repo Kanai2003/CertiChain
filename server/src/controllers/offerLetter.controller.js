@@ -33,13 +33,9 @@ export const createOffer = asyncHandler(async (req, res) => {
   const newOfferLetter = await OfferLetter.create({
     organization: organisationId,
     candidate: candidate,
-    offerDetails: JSON.stringify({
-      organisation: organisationId,
-      candidate,
-      salary,
-      position,
-      date,
-    }),
+    salary: salary,
+    position: position,
+    date: date,
     uniqueLink: `https://company.com/offer/${offerLetterId}`,
     blockHash: recipt.blockHash,
     transactionHash: recipt.transactionHash,
