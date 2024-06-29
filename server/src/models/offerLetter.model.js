@@ -11,7 +11,15 @@ const OfferLetterSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    offerDetails: {
+    salary: {
+      type: Number,
+      required: true,
+    },
+    position: {
+      type: String,
+      required: true,
+    },
+    date: {
       type: String,
       required: true,
     },
