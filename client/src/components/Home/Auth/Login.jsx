@@ -9,10 +9,14 @@ import {
   Alert
 } from '@mui/material';
 import axios from 'axios';
-
-import { BASE_URL } from '../../../constant';  
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../../../store/actions/authActions'; // Only import login action here
+import { BASE_URL } from '../../../constant'; // Corrected import path for constants
 
 const LoginModal = ({ isOpen, setIsOpen }) => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -47,10 +51,13 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
         password: ''
       });
 
+      // Dispatch login action with user data (if needed)
+      dispatch(login(response.data));
+
       setTimeout(() => {
         setSuccess(null);
         setIsOpen(false);
-      }, 2000);
+      }, 1000);
     } catch (err) {
       setError(err.response?.data?.message || 'Something went wrong!');
     } finally {
@@ -75,12 +82,10 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
         boxShadow: '24px',
         padding: '40px',
         borderRadius: '2px',
-        height: '50vh',
+        maxHeight: '80vh',
         color: '#FFFFFF',
-        paddingTop: '10px',
-        paddingBottom: '10px'
       }}>
-        <Typography  variant="h6" textAlign={'center'}>
+        <Typography variant="h6" textAlign={'center'}>
           Login to your account
         </Typography>
         <hr width='80%' />

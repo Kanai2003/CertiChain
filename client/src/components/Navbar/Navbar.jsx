@@ -1,9 +1,12 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { login, logout } from "../../store/actions/authActions";
 
-function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen}) {
-  const user = 0;
-
+function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen }) {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   return (
     <Box
@@ -14,7 +17,7 @@ function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen}) {
         alignItems: "center",
         padding: "15px",
         backgroundColor: "rgba(124, 122, 122, 0.68)",
-        backdropFilter: 'blur(10px)',
+        backdropFilter: "blur(10px)",
         position: "fixed",
         top: "0",
         width: "100%",
@@ -34,13 +37,10 @@ function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen}) {
         </Typography>
       </Box>
 
-      <Box
-        sx={{
-          marginRight: "10px",
-        }}
-      >
-        {["Home", "About", "Contact Us"].map((item, key) => (
+      <Box sx={{ marginRight: "10px" }}>
+        {["Home", "About", "Contact Us"].map((item, index) => (
           <Button
+            key={index} // Add unique key prop here
             sx={{
               color: "#FFFFFF",
               fontSize: "14px",
@@ -58,7 +58,7 @@ function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen}) {
             {item}
           </Button>
         ))}
-        {user ? (
+        {isLoggedIn ? (
           <Button
             sx={{
               bgcolor: "white",
@@ -75,53 +75,54 @@ function Navbar({ setIsRegisterModalOpen, setIsLoginModalOpen}) {
                 },
               },
             }}
+            onClick={() => dispatch(logout())}
             variant="contained"
           >
             LOGOUT
           </Button>
         ) : (
           <>
-          <Button
-            variant="contained"
-            onClick={() => setIsLoginModalOpen(true)}
-            sx={{
-              bgcolor: "white",
-              color: "black",
-              fontWeight: "600",
-              marginLeft: "10px",
-              transition: ".3s",
-              marginRight: "30px",
-              "&:hover": {
-                backgroundColor: "gray",
-                color: "white",
-                display: {
-                  transform: "translateY(-5px)",
+            <Button
+              variant="contained"
+              onClick={() => setIsLoginModalOpen(true)}
+              sx={{
+                bgcolor: "white",
+                color: "black",
+                fontWeight: "600",
+                marginLeft: "10px",
+                transition: ".3s",
+                marginRight: "30px",
+                "&:hover": {
+                  backgroundColor: "gray",
+                  color: "white",
+                  display: {
+                    transform: "translateY(-5px)",
+                  },
                 },
-              },
-            }}
-          >
-            LOGIN
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => setIsRegisterModalOpen(true)}
-            sx={{
-              bgcolor: "white",
-              color: "black",
-              fontWeight: "600",
-              transition: ".3s",
-              marginRight: "30px",
-              "&:hover": {
-                backgroundColor: "gray",
-                color: "white",
-                display: {
-                  transform: "translateY(-5px)",
+              }}
+            >
+              LOGIN
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => setIsRegisterModalOpen(true)}
+              sx={{
+                bgcolor: "white",
+                color: "black",
+                fontWeight: "600",
+                transition: ".3s",
+                marginRight: "30px",
+                "&:hover": {
+                  backgroundColor: "gray",
+                  color: "white",
+                  display: {
+                    transform: "translateY(-5px)",
+                  },
                 },
-              },
-            }}
-          >
-            Register
-          </Button>
+              }}
+            >
+              Register
+            </Button>
           </>
         )}
       </Box>
