@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
   Grid,
+  Typography
 } from "@mui/material";
 
 const VerifyOfferLetterModal = ({
@@ -61,7 +62,7 @@ const VerifyOfferLetterModal = ({
         </Button>
       </DialogActions>
       {verificationResult && (
-        <Typography variant="h6">{verificationResult}</Typography>
+        <Typography variant="h6" >{verificationResult}</Typography>
       )}
     </Dialog>
   );
