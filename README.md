@@ -15,7 +15,6 @@ CertiChain is a decentralized platform for creating and managing offer letters u
 ## Features
 - **Decentralized Offer Letter Creation**: Create immutable and tamper-proof offer letters stored on the Ethereum blockchain.
 - **Verification of Offer Letters**: Verify the authenticity of offer letters using the offer hash.
-- **Listing Offer Letters**: List all generated offer letters with their details.
 - **Unique URLs**: Each offer letter is assigned a unique URL for easy reference.
 
 ## Prerequisites
