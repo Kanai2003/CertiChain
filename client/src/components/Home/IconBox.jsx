@@ -15,8 +15,10 @@ const IconBox = ({ icon, text, onClick }) => {
         cursor: "pointer",
         backgroundColor: "rgba(124, 122, 122, 0.48)",
         backdropFilter: "blur(10px)",
+        transition: '.3s ease-in-out',
         "&:hover": {
           backgroundColor: "action.hover",
+          transform: 'translateY(-7px)'
         },
         paddingX: '3rem',
         paddingY: '1rem',
