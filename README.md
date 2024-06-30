@@ -1,9 +1,8 @@
-Sure, here's a comprehensive GitHub README file that includes steps to run the React app, a brief about the CertiChain platform, and its main features:
-
-markdown
 # CertiChain
 
 CertiChain is a decentralized platform for creating and managing offer letters using blockchain technology. The platform leverages Ethereum smart contracts to ensure the authenticity and integrity of the offer letters. CertiChain provides a seamless interface for employers to create offer letters and for candidates to verify them.
+
+### Deployment Link: https://certichain-gray.vercel.app/
 
 ## Table of Contents
 - [Features](#features)
@@ -135,13 +134,11 @@ CertiChain is a blockchain-based platform designed to bring transparency and sec
 This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENSE) file for details.
 
 
-### Explanation
+<!-- ### Explanation
 - *Features*: Describes the main functionalities of the CertiChain platform.
 - *Prerequisites*: Lists the required software and tools to run the project.
 - *Installation*: Provides steps to clone the repository and install dependencies.
 - *Running the Application*: Instructions to start the React application and deploy the smart contract.
 - *Technologies Used*: Lists the technologies and libraries used in the project.
 - *Brief About CertiChain*: Provides an overview of the platform and its main features.
-- *Screenshots*: Placeholder for screenshots to visually describe the application (you need to add actual screenshots in the screenshots folder).
-
-You can further customize the README file according to your project specifics.
+- *Screenshots*: Placeholder for screenshots to visually describe the application (you need to add actual screenshots in the screenshots folder). -->
