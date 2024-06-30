@@ -61,18 +61,6 @@ const VerifyOfferLetterModal = ({
           Verify Offer Letter
         </Button>
       </DialogActions>
-      {verificationResult && (
-        <Typography variant="h6" sx={{
-          fontSize: '15px',
-          display: 'flex',
-          width: '100%',
-          justifyContent: 'center',
-          fontWeight: '600',
-          color: 'green',
-          paddingBottom: '10px',
-          paddingTop: '10px'
-        }}>{verificationResult}</Typography>
-      )}
     </Dialog>
   );
 };

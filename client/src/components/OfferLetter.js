@@ -27,7 +27,7 @@ import ViewIcon from "@mui/icons-material/Visibility";
 import CheckIcon from "@mui/icons-material/Check";
 
 // Ensure this environment variable is set in your .env file
-const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS; 
+const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
 const OfferLetter = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -146,78 +146,104 @@ const OfferLetter = () => {
 
   return (
     <>
-    <Container sx={{
-      paddingBottom: '80px'
-    }}>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-evenly",
-          marginY: "30px"
-        }}
-      >
-        <IconBox
-          icon={<CreateIcon sx={{ fontSize: 60, color: "primary.main" }} />}
-          text="Create Offer Letter"
-          onClick={() => setCreateModalOpen(true)}
+      <Container sx={{
+        paddingBottom: '80px'
+      }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            marginY: "30px"
+          }}
+        >
+          <IconBox
+            icon={<CreateIcon sx={{ fontSize: 60, color: "primary.main" }} />}
+            text="Create Offer Letter"
+            onClick={() => setCreateModalOpen(true)}
+          />
+
+          <IconBox
+            icon={<ViewIcon sx={{ fontSize: 60, color: "primary.main" }} />}
+            text="Get Offer Letter"
+            onClick={() => setGetModalOpen(true)}
+          />
+
+          <IconBox
+            icon={<CheckIcon sx={{ fontSize: 60, color: "primary.main" }} />}
+            text="Verify Offer Letter"
+            onClick={() => setVerifyModalOpen(true)}
+          />
+        </Box>
+
+        <CreateOfferLetterModal
+          open={createModalOpen}
+          handleClose={setCreateModalOpen}
+          formData={formData}
+          handleChange={handleChange}
+          createOfferLetter={createOfferLetter}
         />
 
-        <IconBox
-          icon={<ViewIcon sx={{ fontSize: 60, color: "primary.main" }} />}
-          text="Get Offer Letter"
-          onClick={() => setGetModalOpen(true)}
+        {generatedOfferLetterId && (
+          <Typography variant="h6" style={{ marginTop: 16 }} sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+            fontSize: '15px',
+            paddingBottom: '10px',
+            fontWeight: '600'
+          }}>
+            Generated Offer Letter ID:&nbsp; <span style={{ color: 'red' }}>{generatedOfferLetterId}</span>
+          </Typography>
+        )}
+
+        <GetOfferLetterModal
+          open={getModalOpen}
+          handleClose={setGetModalOpen}
+          formData={formData}
+          handleChange={handleChange}
+          getOfferLetter={getOfferLetter}
         />
 
-        <IconBox
-          icon={<CheckIcon sx={{ fontSize: 60, color: "primary.main" }} />}
-          text="Verify Offer Letter"
-          onClick={() => setVerifyModalOpen(true)}
+        {offerLetter && (
+          <Paper style={{ marginTop: 16, paddingLeft: 45, paddingTop: 30, paddingBottom: 30, paddingRight: 20 }} sx={{
+            paddingTop: '20px',
+            paddingBottom: '20px',
+            paddingLeft: '20px',
+            paddingRight: '20px'
+          }}>
+            <Typography variant="h6" style={{ fontWeight: '700', }}>Offer Letter Details:</Typography>
+            {Object.entries(offerLetter).map(([key, value]) => (
+              <Typography key={key}>
+                {`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`}
+              </Typography>
+            ))}
+          </Paper>
+        )}
+
+        <VerifyOfferLetterModal
+          open={verifyModalOpen}
+          handleClose={setVerifyModalOpen}
+          formData={formData}
+          handleChange={handleChange}
+          verifyOfferLetter={verifyOfferLetter}
+          verificationResult={verificationResult}
         />
-      </Box>
 
-      <CreateOfferLetterModal
-        open={createModalOpen}
-        handleClose={setCreateModalOpen}
-        formData={formData}
-        handleChange={handleChange}
-        createOfferLetter={createOfferLetter}
-      />
-
-      <GetOfferLetterModal
-        open={getModalOpen}
-        handleClose={setGetModalOpen}
-        formData={formData}
-        handleChange={handleChange}
-        getOfferLetter={getOfferLetter}
-      />
-
-      {offerLetter && (
-        <Paper style={{ marginTop: 16, paddingLeft: 45, paddingTop: 30, paddingBottom: 30, paddingRight: 20 }} sx={{
-          paddingTop: '20px',
-          paddingBottom: '20px',
-          paddingLeft: '20px',
-          paddingRight: '20px'
-        }}>
-          <Typography variant="h6" style={{fontWeight: '700', }}>Offer Letter Details:</Typography>
-          {Object.entries(offerLetter).map(([key, value]) => (
-            <Typography key={key}>
-              {`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`}
-            </Typography>
-          ))}
-        </Paper>
-      )}
-
-      <VerifyOfferLetterModal
-        open={verifyModalOpen}
-        handleClose={setVerifyModalOpen}
-        formData={formData}
-        handleChange={handleChange}
-        verifyOfferLetter={verifyOfferLetter}
-        verificationResult={verificationResult}
-      />
-    </Container>
-    <Typography sx={{
+        {verificationResult && (
+          <Typography variant="h6" sx={{
+            fontSize: '15px',
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'center',
+            fontWeight: '600',
+            color: 'green',
+            paddingBottom: '10px',
+            paddingTop: '10px'
+          }}>{verificationResult}</Typography>
+        )}
+      </Container>
+      <Typography sx={{
         position: 'relative',
         bottom: '10px',
         display: 'flex',
@@ -225,7 +251,7 @@ const OfferLetter = () => {
         color: 'gray',
         fontWeight: '600'
       }}>Copyright &copy; {year} | InnovateX</Typography>
-      </>
+    </>
   );
 };
 

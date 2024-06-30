@@ -91,18 +91,6 @@ const CreateOfferLetterModal = ({
           Create
         </Button>
       </DialogActions>
-      {generatedOfferLetterId && (
-        <Typography variant="h6" style={{ marginTop: 16 }} sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          width: '100%',
-          fontSize: '15px',
-          paddingBottom: '10px',
-          fontWeight: '600'
-        }}>
-          Generated Offer Letter ID:&nbsp; <span style={{color: 'red'}}>{generatedOfferLetterId}</span>
-        </Typography>
-      )}
     </Dialog>
   );
 };
