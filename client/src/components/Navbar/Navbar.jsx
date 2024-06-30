@@ -40,7 +40,7 @@ function Navbar(
         </Typography>
       </Box>
 
-      <Box sx={{ marginRight: "10px" }}>
+      <Box sx={{ marginRight: "10px", paddingRight: '1.5rem' }}>
         {["Home", "About", "Contact Us"].map((item, index) => (
           <Button
             key={index} // Add unique key prop here

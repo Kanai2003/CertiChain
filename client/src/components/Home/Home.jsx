@@ -70,7 +70,7 @@ function Home() {
           }}
           variant="h5"
           textAlign={"center"}
-          style={{fontWeight: '500', paddingTop: '30px'}}
+          style={{ fontWeight: '500', paddingTop: '30px' }}
         >
           A decentralized platform, leveraging Web3 and Blockchain technology to
           securely generate and store your offer letters. Experience the future
