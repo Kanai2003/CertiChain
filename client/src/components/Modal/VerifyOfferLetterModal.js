@@ -20,12 +20,12 @@ const VerifyOfferLetterModal = ({
 }) => {
   return (
     <Dialog open={open} onClose={() => handleClose(false)} fullWidth>
-      <DialogTitle textAlign={'center'} variant="h5">Verify Offer Letter</DialogTitle>
+      <DialogTitle textAlign={'center'} variant="h5" style={{fontWeight: '600'}}>Verify Offer Letter</DialogTitle>
       <DialogContent sx={{
         paddingX: '1.5rem',
         marginY: '1rem'
       }}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{paddingTop: '2rem'}}>
           <Grid item xs={12}>
             <TextField
               label="Offer Letter ID"
@@ -62,7 +62,16 @@ const VerifyOfferLetterModal = ({
         </Button>
       </DialogActions>
       {verificationResult && (
-        <Typography variant="h6" >{verificationResult}</Typography>
+        <Typography variant="h6" sx={{
+          fontSize: '15px',
+          display: 'flex',
+          width: '100%',
+          justifyContent: 'center',
+          fontWeight: '600',
+          color: 'green',
+          paddingBottom: '10px',
+          paddingTop: '10px'
+        }}>{verificationResult}</Typography>
       )}
     </Dialog>
   );
