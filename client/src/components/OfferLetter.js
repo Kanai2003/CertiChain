@@ -188,12 +188,14 @@ const OfferLetter = () => {
           <Typography variant="h6" style={{ marginTop: 16 }} sx={{
             display: 'flex',
             justifyContent: 'center',
-            width: '100%',
-            fontSize: '15px',
-            paddingBottom: '10px',
-            fontWeight: '600'
+            paddingY: '10px',
+            fontWeight: '600',
+            backgroundColor: "rgba(124, 122, 122, 0.48)",
+            backdropFilter: "blur(10px)",
+            border: '1px solid #ffffff',
+            borderRadius: '3px'
           }}>
-            Generated Offer Letter ID:&nbsp; <span style={{ color: 'red' }}>{generatedOfferLetterId}</span>
+            Generated Offer Letter ID:&nbsp; <span style={{ color: 'cyan' }}>{generatedOfferLetterId}</span>
           </Typography>
         )}
 
@@ -232,14 +234,17 @@ const OfferLetter = () => {
 
         {verificationResult && (
           <Typography variant="h6" sx={{
-            fontSize: '15px',
             display: 'flex',
             width: '100%',
             justifyContent: 'center',
             fontWeight: '600',
-            color: 'green',
-            paddingBottom: '10px',
-            paddingTop: '10px'
+            color: 'cyan',
+            marginTop: '20px',
+            paddingY: '10px',
+            backgroundColor: "rgba(124, 122, 122, 0.48)",
+            backdropFilter: "blur(10px)",
+            border: '1px solid #ffffff',
+            borderRadius: '3px'
           }}>{verificationResult}</Typography>
         )}
       </Container>

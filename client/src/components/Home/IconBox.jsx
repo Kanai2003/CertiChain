@@ -13,11 +13,15 @@ const IconBox = ({ icon, text, onClick }) => {
         alignItems: "center",
         justifyContent: "center",
         cursor: "pointer",
-        backgroundColor: "rgba(124, 122, 122, 0.18)",
+        backgroundColor: "rgba(124, 122, 122, 0.48)",
         backdropFilter: "blur(10px)",
         "&:hover": {
           backgroundColor: "action.hover",
         },
+        paddingX: '3rem',
+        paddingY: '1rem',
+        border: '1px solid #ffffff',
+        boxShadow: '1px 1px 20px 7px rgba(141, 140, 140, 0.8)'
       }}
       onClick={onClick}
     >
