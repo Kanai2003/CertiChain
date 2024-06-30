@@ -145,14 +145,16 @@ const OfferLetter = () => {
   const year = date.getFullYear();
 
   return (
-    <Container>
+    <>
+    <Container sx={{
+      paddingBottom: '80px'
+    }}>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-evenly",
-          
-          marginY: "50px",
+          marginY: "30px"
         }}
       >
         <IconBox
@@ -182,12 +184,6 @@ const OfferLetter = () => {
         createOfferLetter={createOfferLetter}
       />
 
-      {generatedOfferLetterId && (
-        <Typography variant="h6" style={{ marginTop: 16 }}>
-          Generated Offer Letter ID: {generatedOfferLetterId}
-        </Typography>
-      )}
-
       <GetOfferLetterModal
         open={getModalOpen}
         handleClose={setGetModalOpen}
@@ -201,7 +197,7 @@ const OfferLetter = () => {
           paddingTop: '20px',
           paddingBottom: '20px',
           paddingLeft: '20px',
-          paddingRight: '20px',
+          paddingRight: '20px'
         }}>
           <Typography variant="h6" style={{fontWeight: '700', }}>Offer Letter Details:</Typography>
           {Object.entries(offerLetter).map(([key, value]) => (
@@ -220,9 +216,16 @@ const OfferLetter = () => {
         verifyOfferLetter={verifyOfferLetter}
         verificationResult={verificationResult}
       />
-
-      
     </Container>
+    <Typography sx={{
+        position: 'relative',
+        bottom: '10px',
+        display: 'flex',
+        justifyContent: 'center',
+        color: 'gray',
+        fontWeight: '600'
+      }}>Copyright &copy; {year} | InnovateX</Typography>
+      </>
   );
 };
 

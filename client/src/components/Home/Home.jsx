@@ -32,7 +32,6 @@ function Home() {
         backgroundPosition: "center",
         backgroundSize: "cover",
         color: '#FFFFFF',
-        backdropFilter: 'opacity(10px)'
       }}
     >
       <Navbar
@@ -45,9 +44,9 @@ function Home() {
           alignItems: "center",
           justifyContent: "center",
           paddingTop: "100px",
-          paddingBottom: '70px',
+          paddingBottom: '30px',
           flexDirection: "column",
-          paddingX: "10rem",
+          paddingX: "5rem",
         }}
       >
         <Typography

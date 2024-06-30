@@ -17,13 +17,15 @@ const GetOfferLetterModal = ({
   getOfferLetter,
 }) => {
   return (
-    <Dialog open={open} onClose={()=>handleClose(false)} >
-      <DialogTitle textAlign={'center'} variant="h5">Get Offer Letter</DialogTitle>
+    <Dialog open={open} onClose={() => handleClose(false)}>
+      <DialogTitle textAlign={'center'} variant="h5" sx={{fontWeight: '600'}}>Get Offer Letter</DialogTitle>
       <DialogContent sx={{
         paddingX: '1.5rem',
-        marginY: '1rem'
+        marginY: '1rem',
       }}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{
+          paddingTop: '2rem'
+        }}>
           <Grid item xs={12}>
             <TextField
               label="Offer Letter ID"
@@ -36,8 +38,8 @@ const GetOfferLetterModal = ({
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions sx={{paddingX: '1.5rem'}}>
-        <Button onClick={()=>handleClose(false)} color="secondary" variant="outlined" fullWidth>
+      <DialogActions sx={{ paddingX: '1.5rem', width: 'auto', paddingBottom: '30px'}}>
+        <Button onClick={() => handleClose(false)} color="secondary" variant="outlined" fullWidth sx={{ paddingY: '18px' }}>
           Cancel
         </Button>
         <Button
@@ -45,6 +47,7 @@ const GetOfferLetterModal = ({
           color="primary"
           variant="contained"
           fullWidth
+          sx={{ display: 'flex', textAlign: 'center' }}
         >
           Get Offer Letter
         </Button>
